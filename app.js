@@ -10,12 +10,28 @@ const getSuperHero = (id) => {
     fetch(`${BASE_URL}/${id}`)
     .then(response => response.json())
     .then(json => {
-        console.log(json)
+        const stats = getStats(json)
+        const heroName = `<h2>${json.name}</h2>`
         const imgCanvas = document.getElementById('heroCanvas')
-        imgCanvas.innerHTML = `<img src="${json.image.url}" height=300 />`
-        const superHeroName = document.getElementById('superHeroName')
-        superHeroName.innerText = `${json.name}`
+        imgCanvas.innerHTML = `${heroName} <img class="hero-img" src="${json.image.url}" height=300 /> ${stats}`
     })
+}
+
+const statToEmoji = {
+    intelligence: '🧠',
+    strength: '💪🏻',
+    speed: '⚡',
+    durability: '🏋🏻‍♂️',
+    power: '👊🏻',
+    combat: '🔪'
+}
+
+const getStats = (character) => {
+    const stats = Object.keys(character.powerstats).map(stat => {
+        const statValue = `<p>${statToEmoji[stat]} ${stat}: ${character.powerstats[stat]}</p>`
+        return statValue
+    })
+    return stats.join('')
 }
 
 const getSearchSuperHero = (name) => {
@@ -23,10 +39,10 @@ const getSearchSuperHero = (name) => {
     .then(response => response.json())
     .then(json => {
         const hero = json.results[0]
+        const stats = getStats(hero)
+        const heroName = `<h2>${hero.name}</h2>`
         const imgCanvas = document.getElementById('heroCanvas')
-        imgCanvas.innerHTML = `<img src="${hero.image.url}" height=300 />`
-        const superHeroName = document.getElementById('superHeroName')
-        superHeroName.innerText = `${hero.name}`
+        imgCanvas.innerHTML = `${heroName}<img src="${hero.image.url}" height=300 /> ${stats}`
     })
 }
 button.onclick = () => getSearchSuperHero(heroNameInput.value)

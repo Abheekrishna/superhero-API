@@ -1,0 +1,10 @@
+body {
+    font-family: sans-serif;
+}
+.hero-img {
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    margin-bottom: 15px;
+}
